@@ -18,10 +18,6 @@
     "friendsofphp/php-cs-fixer": "^2.16",
     "phpunit/phpunit": "^8"
   },
-  "repositories": [{
-    "type": "path",
-    "url": "../jwt-request-signer"
-  }],
   "config": {
     "sort-packages": true
   },
