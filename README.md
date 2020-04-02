@@ -2,6 +2,8 @@
 
 This bundle helps you to sign requests in order to provide access to protected resources.
 
+[![Build Status](https://travis-ci.com/4rthem/request-signer-bundle.svg?branch=master)](https://travis-ci.com/4rthem/request-signer-bundle)
+
 ## Adapters
 
 Supported providers:
