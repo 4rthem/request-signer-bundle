@@ -1,0 +1,10 @@
+services:
+  arthem.signer_adapter_factory.jwt:
+    class: Arthem\RequestSignerBundle\DependencyInjection\Factory\Signer\JWTSignerAdapterFactory
+    tags:
+      - { name: arthem_request_signer.signer_adapter_factory }
+
+  arthem.signer_adapter_factory.aws_s3:
+    class: Arthem\RequestSignerBundle\DependencyInjection\Factory\Signer\AWSS3SignerAdapterFactory
+    tags:
+      - { name: arthem_request_signer.signer_adapter_factory }

@@ -1,0 +1,22 @@
+services:
+  arthem_request_signer.request_signer:
+    class: Arthem\RequestSignerBundle\RequestSigner
+    arguments:
+      - "@arthem_request_signer.http_factory"
+      - "@arthem_request_signer.http_foundation_factory"
+      - ~ # signer adapters
+      - ~ # default signer adapter
+
+  arthem_request_signer.psr_factory:
+    class: Nyholm\Psr7\Factory\Psr17Factory
+
+  arthem_request_signer.http_factory:
+    class: Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory
+    arguments:
+      - "@arthem_request_signer.psr_factory"
+      - "@arthem_request_signer.psr_factory"
+      - "@arthem_request_signer.psr_factory"
+      - "@arthem_request_signer.psr_factory"
+
+  arthem_request_signer.http_foundation_factory:
+    class: Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory
