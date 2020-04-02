@@ -14,7 +14,7 @@ class ArthemRequestSignerExtension extends Extension
     /**
      * @var array
      */
-    private $signerAdapterFactories = [];
+    private $signerAdapterFactories;
 
     /**
      * {@inheritdoc}
