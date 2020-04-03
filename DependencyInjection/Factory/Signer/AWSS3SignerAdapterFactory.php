@@ -28,7 +28,7 @@ class AWSS3SignerAdapterFactory implements SignerAdapterFactoryInterface
 
         $container
             ->setDefinition($id, new Definition(AWSS3SignerAdapter::class))
-            ->setArgument(0, new Reference($config['client']))
+            ->setArgument(0, new Reference($config['service_id']))
             ->setArgument(1, $config['bucket_name'])
             ->setArgument(2, $config['ttl'])
         ;
@@ -40,9 +40,8 @@ class AWSS3SignerAdapterFactory implements SignerAdapterFactoryInterface
             ->children()
                 ->scalarNode('ttl')->defaultValue(1200)->end()
                 ->scalarNode('signature_version')->defaultValue('v3')->end()
-                ->scalarNode('signing_key')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('bucket_name')->isRequired()->end()
-                ->scalarNode('client')->isRequired()->info('The S3 client service ID')->end()
+                ->scalarNode('service_id')->isRequired()->info('The S3 client service ID')->end()
             ->end()
         ;
     }

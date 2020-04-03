@@ -28,6 +28,9 @@ services:
     -
       region: us-east-2
       version: "2006-03-01"
+      credentials:
+        key: '%env(AWS_ACCESS_KEY)%'
+        secret: '%env(AWS_SECRET_KEY)%'
 
 arthem_request_signer:
   signers:
@@ -37,15 +40,15 @@ arthem_request_signer:
         signing_key: '%env(resolve:MY_SIGNING_KEY)%'
     aws_images: # your signer name
       aws_s3: # signer adapter
-        signing_key: '%env(resolve:AWS_SIGNING_KEY)%'
         bucket_name: 'my_bucket'
-        client: 's3_client' # id of your s3 client service
+        service_id: 's3_client' # id of your s3 client service
 ```
 
 ```dotenv
 # .env
 MY_SIGNING_KEY=change-me
-AWS_SIGNING_KEY=change-me
+AWS_ACCESS_KEY=change-me
+AWS_SECRET_KEY=change-me
 ```
 
 ## Usage
@@ -72,7 +75,7 @@ abstract class ApiNormalizer
         return $this->requestSigner->signUri(
             $this->urlGenerator->generate('asset_preview', ['id' => $asset->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $this->requestStack->getCurrentRequest(),
-            'aws' // override default adapter
+            'aws_images' // override default adapter (optional)
         );
     }
 }
