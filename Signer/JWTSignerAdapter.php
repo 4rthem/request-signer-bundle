@@ -21,7 +21,7 @@ class JWTSignerAdapter implements SignerAdapterInterface, SignatureVerifierInter
         $this->signer = $signer;
     }
 
-    public function signRequest(RequestInterface $request): RequestInterface
+    public function signRequest(RequestInterface $request, array $options = []): RequestInterface
     {
         return $this->signer->signRequest($request);
     }

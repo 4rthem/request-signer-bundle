@@ -32,12 +32,12 @@ class AWSS3SignerAdapter implements SignerAdapterInterface
         $this->ttl = $ttl;
     }
 
-    public function signRequest(RequestInterface $request): RequestInterface
+    public function signRequest(RequestInterface $request, array $options = []): RequestInterface
     {
-        $cmd = $this->client->getCommand('GetObject', [
+        $cmd = $this->client->getCommand('GetObject', array_merge([
             'Bucket' => $this->bucketName,
             'Key' => ltrim($request->getUri()->getPath(), '/'),
-        ]);
+        ], $options));
 
         return $this->client->createPresignedRequest($cmd, time() + $this->ttl);
     }

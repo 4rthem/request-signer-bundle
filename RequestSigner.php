@@ -41,12 +41,14 @@ class RequestSigner
         $this->defaultSigner = $defaultAdapter;
     }
 
-    public function signRequest(SymfonyRequest $request, ?string $signer = null): SymfonyRequest
+    public function signRequest(SymfonyRequest $request, array $options = []): SymfonyRequest
     {
+        $signer = $this->getSignerAdapter($options['signer'] ?? null);
+        $options = $this->normalizeOptions($options);
+
         return $this->convertToSymfonyRequest(
-            $this
-            ->getSignerAdapter($signer)
-            ->signRequest($this->convertToPsrRequest($request))
+            $signer
+            ->signRequest($this->convertToPsrRequest($request), $options)
         );
     }
 
@@ -64,7 +66,7 @@ class RequestSigner
         }
     }
 
-    public function signUri(string $uri, SymfonyRequest $currentRequest, ?string $signer = null): string
+    public function signUri(string $uri, SymfonyRequest $currentRequest, array $options = []): string
     {
         $request = $this
             ->convertToPsrRequest($currentRequest)
@@ -72,11 +74,20 @@ class RequestSigner
             ->withMethod('GET')
         ;
 
-        return $this
-            ->getSignerAdapter($signer)
-            ->signRequest($request)
+        $signer = $this->getSignerAdapter($options['signer'] ?? null);
+        $options = $this->normalizeOptions($options);
+
+        return $signer
+            ->signRequest($request, $options)
             ->getUri()
             ->__toString();
+    }
+
+    private function normalizeOptions(array $options): array
+    {
+        unset($options['signer']);
+
+        return $options;
     }
 
     private function convertToPsrRequest(SymfonyRequest $request): RequestInterface

@@ -75,7 +75,10 @@ abstract class ApiNormalizer
         return $this->requestSigner->signUri(
             $this->urlGenerator->generate('asset_preview', ['id' => $asset->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $this->requestStack->getCurrentRequest(),
-            'aws_images' // override default adapter (optional)
+            [
+                'signer' => 'aws_images', // override default adapter (optional)
+                'ResponseContentDisposition' => 'attachment; filename=image.jpg', // Force S3 download
+            ]
         );
     }
 }
