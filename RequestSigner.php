@@ -12,6 +12,7 @@ use Psr\Http\Message\RequestInterface;
 use RuntimeException;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestSigner
@@ -92,6 +93,9 @@ class RequestSigner
 
     private function convertToPsrRequest(SymfonyRequest $request): RequestInterface
     {
+        $request = clone $request;
+        $request->files = new FileBag();
+
         return $this->psrHttpFactory->createRequest($request);
     }
 
